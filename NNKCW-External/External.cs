@@ -1,4 +1,6 @@
 ﻿using Memory;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NNKCW_External.Elevate;
 using System;
 using System.Collections.Generic;
@@ -6,7 +8,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Security.Principal;
 using System.Text;
 using System.Threading;
@@ -15,6 +19,7 @@ using System.Windows.Forms;
 
 namespace NNKCW_External
 {
+
     public partial class External : Form
     {
         Thread t;
@@ -59,7 +64,58 @@ namespace NNKCW_External
                 Environment.Exit(0);
             }
 
-            m.OpenProcess(processName);
+            try
+            {
+                var open = m.OpenProcess(processName);
+                if (open)
+                {
+                    displayStatus.Text = "Active";
+                } else
+                {
+                    displayStatus.Text = "Ni No Kuni: Cross World not detected";
+                }
+            } catch(Exception e)
+            {
+                displayStatus.Text = e.Message;
+            }
+        }
+
+        public void getPrice(string tokenName)
+        {
+            HttpWebRequest WebReq = (HttpWebRequest)WebRequest.Create(string.Format("https://ninokuni.marblex.io/api/price?tokenType=" + tokenName));
+
+            WebReq.Method = "GET";
+
+            HttpWebResponse WebResp = (HttpWebResponse)WebReq.GetResponse();
+
+            string jsonString;
+            using (Stream stream = WebResp.GetResponseStream())   //modified from your code since the using statement disposes the stream automatically when done
+            {
+                StreamReader reader = new StreamReader(stream, System.Text.Encoding.UTF8);
+                jsonString = reader.ReadToEnd();
+            }
+
+            var json = JsonConvert.DeserializeObject<PriceModel>(jsonString);
+            displayLivePriceNKT.Text = json.currencies.USD.priceMajor + "." + json.currencies.USD.priceMinor.Substring(0, 4) + " " + json.currencies.USD.counter;
+        }
+
+        public void getExchangeRate(string tokenName)
+        {
+            HttpWebRequest WebReq = (HttpWebRequest)WebRequest.Create(string.Format("https://ninokuni.marblex.io/api/exchangeRate?tokenType=" + tokenName));
+
+            WebReq.Method = "GET";
+
+            HttpWebResponse WebResp = (HttpWebResponse)WebReq.GetResponse();
+
+            string jsonString;
+            using (Stream stream = WebResp.GetResponseStream())   //modified from your code since the using statement disposes the stream automatically when done
+            {
+                StreamReader reader = new StreamReader(stream, System.Text.Encoding.UTF8);
+                jsonString = reader.ReadToEnd();
+            }
+
+            var json = JsonConvert.DeserializeObject<ExchangeRateModel>(jsonString);
+            displayExchangeRateNKT.Text = json.result.Last().exchangeRate;
         }
 
         private void External_Load(object sender, EventArgs e)
@@ -74,7 +130,8 @@ namespace NNKCW_External
             {
                 try
                 {
-                    displayStatus.Text = "Active";
+                    getPrice("NKT");
+                    getExchangeRate("NKT");
                     displayHP.Text = m.ReadInt(_addressHP).ToString();
                     displayCoordinateX.Text = m.ReadFloat(_addressCoordinateX).ToString();
                     displayCoordinateY.Text = m.ReadFloat(_addressCoordinateY).ToString();
@@ -93,7 +150,7 @@ namespace NNKCW_External
                     _coordinateZ = m.ReadFloat(_addressCoordinateZ);
                 } catch(Exception e)
                 {
-                    displayStatus.Text = e.ToString();
+                    //displayStatus.Text = e.ToString();
                 }
                 Thread.Sleep(1000);
                 //you need to use Invoke because the new thread can't access the UI elements directly
@@ -231,7 +288,7 @@ namespace NNKCW_External
             }
             else
             {
-                m.UnfreezeValue(_addressAttackSpeed);
+                m.UnfreezeValue(_addressAttackType);
                 activateAttackType.Text = "Inactive";
             }
         }

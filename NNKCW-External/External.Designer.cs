@@ -86,6 +86,11 @@
             this.optionAttackType = new System.Windows.Forms.ComboBox();
             this.btnCancelAnimation = new System.Windows.Forms.Button();
             this.label21 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.displayLivePriceNKT = new System.Windows.Forms.Label();
+            this.displayExchangeRateNKT = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -683,11 +688,59 @@
             this.label21.TabIndex = 42;
             this.label21.Text = "by sempatpanick";
             // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(219, 165);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(29, 13);
+            this.label22.TabIndex = 43;
+            this.label22.Text = "NKT";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(219, 185);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(54, 13);
+            this.label23.TabIndex = 44;
+            this.label23.Text = "Live Price";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(219, 205);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(81, 13);
+            this.label24.TabIndex = 45;
+            this.label24.Text = "Exchange Rate";
+            // 
+            // displayLivePriceNKT
+            // 
+            this.displayLivePriceNKT.AutoSize = true;
+            this.displayLivePriceNKT.Location = new System.Drawing.Point(308, 185);
+            this.displayLivePriceNKT.Name = "displayLivePriceNKT";
+            this.displayLivePriceNKT.Size = new System.Drawing.Size(0, 13);
+            this.displayLivePriceNKT.TabIndex = 46;
+            // 
+            // displayExchangeRateNKT
+            // 
+            this.displayExchangeRateNKT.AutoSize = true;
+            this.displayExchangeRateNKT.Location = new System.Drawing.Point(308, 205);
+            this.displayExchangeRateNKT.Name = "displayExchangeRateNKT";
+            this.displayExchangeRateNKT.Size = new System.Drawing.Size(0, 13);
+            this.displayExchangeRateNKT.TabIndex = 47;
+            // 
             // External
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 541);
+            this.Controls.Add(this.displayExchangeRateNKT);
+            this.Controls.Add(this.displayLivePriceNKT);
+            this.Controls.Add(this.label24);
+            this.Controls.Add(this.label23);
+            this.Controls.Add(this.label22);
             this.Controls.Add(this.label21);
             this.Controls.Add(this.btnCancelAnimation);
             this.Controls.Add(this.optionAttackType);
@@ -804,6 +857,11 @@
         private System.Windows.Forms.ComboBox optionAttackType;
         private System.Windows.Forms.Button btnCancelAnimation;
         private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label displayLivePriceNKT;
+        private System.Windows.Forms.Label displayExchangeRateNKT;
     }
 }
 
